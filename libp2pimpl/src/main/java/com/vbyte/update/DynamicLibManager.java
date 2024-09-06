@@ -3,6 +3,8 @@ package com.vbyte.update;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import org.json.JSONObject;
 
@@ -92,7 +94,7 @@ public class DynamicLibManager {
                             .append("&token=").append(token)
                             .append("&jniVersion=").append(jniVersion)
                             .append("&packageName=").append(context.getPackageName());
-                    URL url = new URL(sb.toString());
+                    URL url = Urls.create(sb.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setConnectTimeout(30_000);
                     conn.setReadTimeout(10_000);
@@ -147,7 +149,7 @@ public class DynamicLibManager {
                 }
                 long finishedSize = tmpFile.length();
 
-                URL url = new URL(downloadUrl);
+                URL url = Urls.create(downloadUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(30_000);
                 conn.setReadTimeout(30_000);
