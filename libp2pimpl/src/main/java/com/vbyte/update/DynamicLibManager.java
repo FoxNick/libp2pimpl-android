@@ -3,6 +3,7 @@ package com.vbyte.update;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import io.github.pixee.security.BoundedLineReader;
 
 import org.json.JSONObject;
 
@@ -102,7 +103,7 @@ public class DynamicLibManager {
                                 conn.getInputStream()));
                         String jsonStr = "";
                         String line;
-                        while ((line = input.readLine()) != null) {
+                        while ((line = BoundedLineReader.readLine(input, 5_000_000)) != null) {
                             jsonStr += line;
                         }
 
